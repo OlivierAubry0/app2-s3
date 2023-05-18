@@ -6,7 +6,7 @@ CREATE TABLE Campus
     PRIMARY KEY (campus_ID)
 );
 
-CREATE TABLE Carateristique
+CREATE TABLE Caracteristique
 (
     caracteristique_id INT NOT NULL,
     nom VARCHAR NOT NULL,
@@ -26,9 +26,9 @@ CREATE TABLE Fonction
     PRIMARY KEY (fonction_id)
 );
 
-CREATE TABLE Pavillion
+CREATE TABLE Pavillon
 (
-    pavillion_id VARCHAR NOT NULL,
+    pavillon_id VARCHAR NOT NULL,
     nom VARCHAR NOT NULL,
     campus_ID INT NOT NULL,
     PRIMARY KEY (pavillion_id),
@@ -39,9 +39,9 @@ CREATE TABLE Departement
 (
     departement_id VARCHAR NOT NULL,
     nom VARCHAR NOT NULL,
-    pavillion_id VARCHAR NOT NULL,
+    pavillon_id VARCHAR NOT NULL,
     PRIMARY KEY (departement_id),
-    FOREIGN KEY (pavillion_id) REFERENCES Pavillion(pavillion_id)
+    FOREIGN KEY (pavillon_id) REFERENCES Pavillon(pavillon_id)
 );
 
 CREATE TABLE Local
@@ -49,10 +49,10 @@ CREATE TABLE Local
     local_id INT NOT NULL,
     capacite INT NOT NULL,
     notes VARCHAR,
-    pavillion_id VARCHAR NOT NULL,
+    pavillon_id VARCHAR NOT NULL,
     fonction_id INT NOT NULL,
-    PRIMARY KEY (local_id, pavillion_id),
-    FOREIGN KEY (pavillion_id) REFERENCES Pavillion(pavillion_id),
+    PRIMARY KEY (local_id, pavillon_id),
+    FOREIGN KEY (pavillon_id) REFERENCES Pavillon(pavillon_id),
     FOREIGN KEY (fonction_id) REFERENCES Fonction(fonction_id)
 );
 
@@ -62,19 +62,19 @@ CREATE TABLE Sous_local
     capacite INT NOT NULL,
     sous_local_id VARCHAR NOT NULL,
     local_id INT NOT NULL,
-    pavillion_id VARCHAR NOT NULL,
-    FOREIGN KEY (local_id, pavillion_id) REFERENCES Local(local_id, pavillion_id)
+    pavillon_id VARCHAR NOT NULL,
+    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id)
     );
 
 CREATE TABLE local_caracteristique
 (
     quantite INT NOT NULL,
     local_id INT NOT NULL,
-    pavillion_id VARCHAR NOT NULL,
+    pavillon_id VARCHAR NOT NULL,
     caracteristique_id INT NOT NULL,
-    PRIMARY KEY (local_id, pavillion_id, caracteristique_id),
-    FOREIGN KEY (local_id, pavillion_id) REFERENCES Local(local_id, pavillion_id),
-    FOREIGN KEY (caracteristique_id) REFERENCES Carateristique(caracteristique_id)
+    PRIMARY KEY (local_id, pavillon_id, caracteristique_id),
+    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id),
+    FOREIGN KEY (caracteristique_id) REFERENCES Caracteristique(caracteristique_id)
 );
 
 CREATE TABLE Personne
@@ -95,10 +95,10 @@ CREATE TABLE Reservation
     description VARCHAR,
     cip VARCHAR NOT NULL,
     local_id INT NOT NULL,
-    pavillion_id VARCHAR NOT NULL,
+    pavillon_id VARCHAR NOT NULL,
     PRIMARY KEY (reservation_id),
     FOREIGN KEY (cip) REFERENCES Personne(cip),
-    FOREIGN KEY (local_id, pavillion_id) REFERENCES Local(local_id, pavillion_id)
+    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id)
 );
 
 CREATE TABLE Trigger
