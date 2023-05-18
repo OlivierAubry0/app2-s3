@@ -1,163 +1,110 @@
 CREATE TABLE Campus
 (
-    id_campus SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(20) NOT NULL,
-    adresse VARCHAR(40) NOT NULL
+    campus_ID VARCHAR NOT NULL,
+    nom VARCHAR NOT NULL,
+    PRIMARY KEY (campus_ID)
 );
 
-CREATE TABLE Pavillon
+CREATE TABLE Carateristique
 (
-    id_pavillon CHAR(2) NOT NULL,
-    nom VARCHAR(20) NOT NULL,
-    id_campus INT NOT NULL,
-    PRIMARY KEY (id_pavillon),
-    FOREIGN KEY (id_campus) REFERENCES Campus(id_campus),
-    CONSTRAINT pavillon_id_pavillon
-        CHECK (id_pavillon SIMILAR TO '[A-Z]{1}[0-9]{1}')
-    );
-
-CREATE TABLE Faculte
-(
-    id_faculte SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(20) NOT NULL
+    caracteristique_id INT NOT NULL,
+    nom INT NOT NULL,
+    PRIMARY KEY (caracteristique_id)
 );
 
 CREATE TABLE Statut
 (
-    id_statut SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE Privilege
-(
-    id_privilege SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(100) NOT NULL
+    nom VARCHAR NOT NULL,
+    statut_id INT NOT NULL,
+    PRIMARY KEY (statut_id)
 );
 
 CREATE TABLE Fonction
 (
-    id_fonction CHAR(4) NOT NULL,
-    nom VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id_fonction)
+    nom INT NOT NULL,
+    fonction_id INT NOT NULL,
+    PRIMARY KEY (fonction_id)
+);
+
+CREATE TABLE Pavillion
+(
+    pavillion_id VARCHAR NOT NULL,
+    nom VARCHAR NOT NULL,
+    campus_ID VARCHAR NOT NULL,
+    PRIMARY KEY (pavillion_id),
+    FOREIGN KEY (campus_ID) REFERENCES Campus(campus_ID)
+);
+
+CREATE TABLE Departement
+(
+    departement_id VARCHAR NOT NULL,
+    nom VARCHAR NOT NULL,
+    pavillion_id VARCHAR NOT NULL,
+    PRIMARY KEY (departement_id),
+    FOREIGN KEY (pavillion_id) REFERENCES Pavillion(pavillion_id)
 );
 
 CREATE TABLE Local
 (
-    nom_local CHAR(4) NOT NULL,
+    local_id INT NOT NULL,
     capacite INT NOT NULL,
-    description VARCHAR(300),
-    id_parent CHAR(4),
-    id_pavillon CHAR(2) NOT NULL,
-    id_fonction CHAR(4) NOT NULL,
-    PRIMARY KEY (nom_local),
-    FOREIGN KEY (id_pavillon) REFERENCES Pavillon(id_pavillon),
-    FOREIGN KEY (id_fonction) REFERENCES Fonction(id_fonction),
-    CONSTRAINT local_id_local
-        CHECK (nom_local SIMILAR TO '[0-9]{4}|-[0-9]{1}')
+    notes VARCHAR,
+    pavillion_id VARCHAR NOT NULL,
+    fonction_id INT NOT NULL,
+    PRIMARY KEY (local_id, pavillion_id),
+    FOREIGN KEY (pavillion_id) REFERENCES Pavillion(pavillion_id),
+    FOREIGN KEY (fonction_id) REFERENCES Fonction(fonction_id)
+);
+
+CREATE TABLE Sous_local
+(
+    note INT,
+    capacite INT NOT NULL,
+    sous_local_id INT NOT NULL,
+    local_id INT NOT NULL,
+    pavillion_id VARCHAR NOT NULL,
+    FOREIGN KEY (local_id, pavillion_id) REFERENCES Local(local_id, pavillion_id)
     );
 
-CREATE TABLE Operation
+CREATE TABLE possede
 (
-    id_operation SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(50) NOT NULL
+    local_id INT NOT NULL,
+    pavillion_id VARCHAR NOT NULL,
+    caracteristique_id INT NOT NULL,
+    PRIMARY KEY (local_id, pavillion_id, caracteristique_id),
+    FOREIGN KEY (local_id, pavillion_id) REFERENCES Local(local_id, pavillion_id),
+    FOREIGN KEY (caracteristique_id) REFERENCES Carateristique(caracteristique_id)
 );
 
-CREATE TABLE Pavillon_Faculte
+CREATE TABLE Personne
 (
-    id_pavillon_faculte SERIAL PRIMARY KEY NOT NULL,
-    id_pavillon CHAR(2) NOT NULL,
-    id_faculte INT NOT NULL,
-    FOREIGN KEY (id_pavillon) REFERENCES Pavillon(id_pavillon),
-    FOREIGN KEY (id_faculte) REFERENCES Faculte(id_faculte)
-);
-
-CREATE TABLE Statut_Privilege
-(
-    id_statut_privilege SERIAL PRIMARY KEY NOT NULL,
-    id_statut INT NOT NULL,
-    id_privilege INT NOT NULL,
-    FOREIGN KEY (id_statut) REFERENCES Statut(id_statut),
-    FOREIGN KEY (id_privilege) REFERENCES Privilege(id_privilege)
-);
-
-CREATE TABLE Local_Privilege
-(
-    id_local_privilege SERIAL PRIMARY KEY NOT NULL,
-    nom_local CHAR(4) NOT NULL,
-    id_privilege INT NOT NULL,
-    FOREIGN KEY (nom_local) REFERENCES Local(nom_local),
-    FOREIGN KEY (id_privilege) REFERENCES Privilege(id_privilege)
-);
-
-CREATE TABLE Caracteristique
-(
-    id_caracteristique SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(60) NOT NULL
-);
-
-CREATE TABLE Local_caracteristique
-(
-    id_local_caracteristiques SERIAL PRIMARY KEY NOT NULL,
-    nom_local CHAR(4) NOT NULL,
-    id_caracteristique INT NOT NULL,
-    FOREIGN KEY (nom_local) REFERENCES Local(nom_local),
-    FOREIGN KEY (id_caracteristique) REFERENCES Caracteristique(id_caracteristique)
-);
-
-
-
-CREATE TABLE Departement
-(
-    id_departement SERIAL PRIMARY KEY NOT NULL,
-    nom VARCHAR(100) NOT NULL,
-    id_faculte INT NOT NULL,
-    FOREIGN KEY (id_faculte) REFERENCES Faculte(id_faculte)
-);
-
-CREATE TABLE Membre
-(
-    cip CHAR(8) NOT NULL,
-    nom VARCHAR(20) NOT NULL,
-    prenom VARCHAR(20) NOT NULL,
-    courriel VARCHAR(30) NOT NULL,
-    num_telephone CHAR(10) NOT NULL,
-    id_departement INT,
+    nom VARCHAR NOT NULL,
+    prénom VARCHAR NOT NULL,
+    cip VARCHAR NOT NULL,
+    departement_id VARCHAR NOT NULL,
     PRIMARY KEY (cip),
-    FOREIGN KEY (id_departement) REFERENCES Departement(id_departement),
-    CONSTRAINT membre_cip
-        CHECK (cip SIMILAR TO '[A-Z]{4}[0-9]{4}')
-    );
+    FOREIGN KEY (departement_id) REFERENCES Departement(departement_id)
+);
 
 CREATE TABLE Reservation
 (
-    debut TIME NOT NULL,
-    fin TIME NOT NULL,
-    id_reservation SERIAL PRIMARY KEY NOT NULL,
-    date DATE NOT NULL,
-    description VARCHAR(300),
-    etat BOOLEAN NOT NULL,
-    nom_local CHAR(4) NOT NULL,
-    cip CHAR(8) NOT NULL,
-    FOREIGN KEY (nom_local) REFERENCES Local(nom_local),
-    FOREIGN KEY (cip) REFERENCES Membre(cip),
-    CONSTRAINT time_check
-        CHECK (debut < fin)
+    reservation_id INT NOT NULL,
+    date_debut INT NOT NULL,
+    date_fin INT NOT NULL,
+    description INT,
+    cip VARCHAR NOT NULL,
+    local_id INT NOT NULL,
+    pavillion_id VARCHAR NOT NULL,
+    PRIMARY KEY (reservation_id),
+    FOREIGN KEY (cip) REFERENCES Personne(cip),
+    FOREIGN KEY (local_id, pavillion_id) REFERENCES Local(local_id, pavillion_id)
 );
 
-CREATE TABLE Role
+CREATE TABLE associer
 (
-    id_role SERIAL PRIMARY KEY NOT NULL,
-    cip CHAR(8) NOT NULL,
-    id_statut INT NOT NULL,
-    FOREIGN KEY (cip) REFERENCES Membre(cip),
-    FOREIGN KEY (id_statut) REFERENCES Statut(id_statut)
-);
-
-CREATE TABLE Journal
-(
-    id_journal SERIAL PRIMARY KEY NOT NULL,
-    cip CHAR(8) NOT NULL,
-    id_operation INT NOT NULL,
-    FOREIGN KEY (cip) REFERENCES Membre(cip),
-    FOREIGN KEY (id_operation) REFERENCES Operation(id_operation)
+    cip VARCHAR NOT NULL,
+    statut_id INT NOT NULL,
+    PRIMARY KEY (cip, statut_id),
+    FOREIGN KEY (cip) REFERENCES Personne(cip),
+    FOREIGN KEY (statut_id) REFERENCES Statut(statut_id)
 );
