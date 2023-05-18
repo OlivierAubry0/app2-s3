@@ -29,9 +29,8 @@ CREATE TABLE Fonction
 CREATE TABLE Pavillon
 (
     pavillon_id VARCHAR NOT NULL,
-    nom VARCHAR NOT NULL,
-    campus_ID INT NOT NULL,
-    PRIMARY KEY (pavillion_id),
+    nom VARCHAR NOT NULL,    campus_ID INT NOT NULL,
+    PRIMARY KEY (pavillon_id),
     FOREIGN KEY (campus_ID) REFERENCES Campus(campus_ID)
 );
 
