@@ -15,6 +15,12 @@ INSERT INTO Departement (departement_id, nom, pavillon_id) VALUES ('GM','Départ
 INSERT INTO Departement (departement_id, nom, pavillon_id) VALUES ('GCGB','Département de génie civil et de génie du bâtiment', 'C1');
 INSERT INTO Departement (departement_id, nom, pavillon_id) VALUES ('SI','Département d''informatique', 'D7');
 
+--Insertions Table statut --
+INSERT INTO statut (nom_statut) VALUES ('Etudiant');
+INSERT INTO statut (nom_statut) VALUES ('Enseignats');
+INSERT INTO statut (nom_statut) VALUES ('Personnel de soutient');
+INSERT INTO statut (nom_statut) VALUES ('Administrateur');
+
 --Insertions Table fonction --
 INSERT INTO fonction (nom, fonction_id) VALUES ('Salle de classe générale',0110);
 INSERT INTO fonction (nom, fonction_id) VALUES ('Salle de classe spécialisée',0111);
@@ -38,7 +44,7 @@ INSERT INTO fonction (nom, fonction_id) VALUES ('Salon du personnel',0930);
 INSERT INTO fonction (nom, fonction_id) VALUES ('Studio d’enregistrement',1030);
 INSERT INTO fonction (nom, fonction_id) VALUES ('Hall d’entrée',1260);
 
---Insertions Table caracteristique --
+--Insertions Table caracteristique--
 INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Connexion à Internet',0);
 INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Tables fixes en U et chaises mobiles',1);
 INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Monoplaces',2);
@@ -78,5 +84,32 @@ INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Magnétophone à 
 INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Amplificateur audio',42);
 INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Local barré',43);
 INSERT INTO caracteristique (nom, caracteristique_id) VALUES ('Prise réseau',44);
+
+--Insertions Table local --
+INSERT INTO local (local_id, capacite, notes, pavillon_id, fonction_id) VALUES (3125,50,'Local de cours','C1',0110);
+
+--Associer caracteristique aux locaux --
+
+--Insertions Table cubicule --
+INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,1,3125,'C1');
+INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,2,3125,'C1');
+INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,3,3125,'C1');
+INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,4,3125,'C1');
+INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,5,3125,'C1');
+
+--Insertions Table personne --
+
+--Associer statut aux personnes --
+
+--Insertions Table Reservation --
+
+--Faire le logbook... --
+
+
+
+
+
+
+
 
 
