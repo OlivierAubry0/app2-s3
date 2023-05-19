@@ -1,3 +1,16 @@
+DROP TABLE IF EXISTS campus CASCADE;
+DROP TABLE IF EXISTS caracteristique CASCADE;
+DROP TABLE IF EXISTS cubicule CASCADE;
+DROP TABLE IF EXISTS departement CASCADE;
+DROP TABLE IF EXISTS fonction CASCADE;
+DROP TABLE IF EXISTS local CASCADE;
+DROP TABLE IF EXISTS local_caracteristique CASCADE;
+DROP TABLE IF EXISTS logbook CASCADE;
+DROP TABLE IF EXISTS pavillon CASCADE;
+DROP TABLE IF EXISTS personne CASCADE;
+DROP TABLE IF EXISTS personne_statut CASCADE;
+DROP TABLE IF EXISTS reservation CASCADE;
+DROP TABLE IF EXISTS statut CASCADE;
 
 CREATE TABLE Campus
 (
@@ -29,7 +42,8 @@ CREATE TABLE Fonction
 CREATE TABLE Pavillon
 (
     pavillon_id VARCHAR NOT NULL,
-    nom VARCHAR NOT NULL,    campus_ID INT NOT NULL,
+    nom VARCHAR NOT NULL,
+    campus_ID INT NOT NULL,
     PRIMARY KEY (pavillon_id),
     FOREIGN KEY (campus_ID) REFERENCES Campus(campus_ID)
 );
@@ -55,15 +69,15 @@ CREATE TABLE Local
     FOREIGN KEY (fonction_id) REFERENCES Fonction(fonction_id)
 );
 
-CREATE TABLE Sous_local
+CREATE TABLE Cubicule
 (
-    note VARCHAR,
     capacite INT NOT NULL,
-    sous_local_id VARCHAR NOT NULL,
+    cubicule_id INT NOT NULL,
     local_id INT NOT NULL,
     pavillon_id VARCHAR NOT NULL,
+    PRIMARY KEY (cubicule_id, local_id, pavillon_id),
     FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id)
-    );
+);
 
 CREATE TABLE local_caracteristique
 (
@@ -100,14 +114,16 @@ CREATE TABLE Reservation
     FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id)
 );
 
-CREATE TABLE Trigger
+CREATE TABLE Logbook
 (
     trigger_id INT NOT NULL,
     description VARCHAR NOT NULL,
     trigger_date DATE NOT NULL,
     reservation_id INT NOT NULL,
+    cip VARCHAR NOT NULL,
     PRIMARY KEY (trigger_id),
-    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id)
+    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),
+    FOREIGN KEY (cip) REFERENCES Personne(cip)
 );
 
 CREATE TABLE personne_statut
