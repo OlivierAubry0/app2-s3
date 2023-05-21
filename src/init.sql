@@ -116,12 +116,11 @@ CREATE TABLE Reservation
 
 CREATE TABLE Logbook
 (
-    trigger_id INT NOT NULL,
+    trigger_id SERIAL PRIMARY KEY,
     description VARCHAR NOT NULL,
     trigger_date DATE NOT NULL,
     reservation_id INT NOT NULL,
     cip VARCHAR NOT NULL,
-    PRIMARY KEY (trigger_id),
     FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),
     FOREIGN KEY (cip) REFERENCES Personne(cip)
 );
