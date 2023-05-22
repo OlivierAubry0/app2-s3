@@ -96,12 +96,16 @@ INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,2
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,3,3125,'C1');
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,4,3125,'C1');
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,5,3125,'C1');
-
 --Insertions Table personne --
 
+INSERT INTO personne (nom, prénom, cip, departement_id) VALUES ('ratelle', 'daphnée', 'ratd6969', 'SI');
 --Associer statut aux personnes --
-
+INSERT INTO personne_statut(cip, nom_statut) VALUES ('ratd6969', 'Etudiant');
 --Insertions Table Reservation --
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (0, '2023-05-21 02:00:00', '2023-05-21 04:00:00','allo', 'ratd6969',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (2, '2023-05-21 02:00:00', '2023-05-21 06:00:00','allo', 'ratd6969',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (1,'2023-05-21 10:00:00','2023-05-21 11:00:00','allo', 'ratd6969',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (3,'2023-05-21 12:00:00','2023-05-21 13:00:00','non', 'ratd6969',3125 ,'C1');
 
 --Faire le logbook... --
 
