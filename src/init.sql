@@ -103,8 +103,8 @@ CREATE TABLE Personne
 CREATE TABLE Reservation
 (
     reservation_id INT NOT NULL,
-    date_debut DATE NOT NULL,
-    date_fin DATE NOT NULL,
+    date_debut TIMESTAMP NOT NULL,
+    date_fin TIMESTAMP NOT NULL,
     description VARCHAR,
     cip VARCHAR NOT NULL,
     local_id INT NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE Logbook
 (
     trigger_id SERIAL PRIMARY KEY,
     description VARCHAR NOT NULL,
-    trigger_date DATE NOT NULL,
+    trigger_date TIMESTAMP NOT NULL,
     reservation_id INT NOT NULL,
     cip VARCHAR NOT NULL,
     FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),
