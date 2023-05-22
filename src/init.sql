@@ -133,3 +133,10 @@ CREATE TABLE personne_statut
     FOREIGN KEY (cip) REFERENCES Personne(cip),
     FOREIGN KEY (nom_statut) REFERENCES Statut(nom_statut)
 );
+
+ALTER TABLE logbook
+    DROP CONSTRAINT logbook_reservation_id_fkey,
+    ADD CONSTRAINT logbook_reservation_id_fkey
+        FOREIGN KEY (reservation_id)
+            REFERENCES reservation (reservation_id)
+            ON DELETE CASCADE;

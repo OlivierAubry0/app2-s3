@@ -105,6 +105,7 @@ INSERT INTO personne_statut(cip, nom_statut) VALUES ('ratd6969', 'Etudiant');
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (0, '2023-05-21 02:00:00', '2023-05-21 04:00:00','allo', 'ratd6969',3125 ,'C1');
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (2, '2023-05-21 02:00:00', '2023-05-21 06:00:00','allo', 'ratd6969',3125 ,'C1');
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (1,'2023-05-21 10:00:00','2023-05-21 11:00:00','allo', 'ratd6969',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (3,'2023-05-21 12:00:00','2023-05-21 13:00:00','non', 'ratd6969',3125 ,'C1');
 
 --Faire le logbook... --
 

@@ -39,17 +39,51 @@ ORDER BY
 $$;
 
 SELECT * FROM TABLEAU('2023-05-21 00:00:00'::timestamp, '2023-05-21 23:45:00'::timestamp, 210);
-CREATE OR REPLACE FUNCTION update_logbook()
-    RETURNS TRIGGER AS $$
+
+
+
+CREATE OR REPLACE FUNCTION update_logbook() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
+        -- Check for reservation conflicts
+        IF EXISTS (
+            SELECT 1
+            FROM reservation
+            WHERE local_id = NEW.local_id
+              AND pavillon_id = NEW.pavillon_id
+              AND date_debut < NEW.date_fin
+              AND date_fin > NEW.date_debut
+              AND reservation_id <> NEW.reservation_id
+        ) THEN
+            RAISE EXCEPTION 'Reservation conflict: The selected time interval overlaps with an existing reservation.';
+        END IF;
+
+        -- Insert the reservation into the logbook
         INSERT INTO logbook (trigger_id, description, trigger_date, reservation_id, cip)
         VALUES (DEFAULT, 'Reservation created', CURRENT_DATE, NEW.reservation_id, NEW.cip);
+
+        RETURN NEW;
     ELSIF TG_OP = 'UPDATE' THEN
-        INSERT INTO logbook (trigger_id, description, trigger_date, reservation_id, cip)
-        VALUES (DEFAULT, 'Reservation updated', CURRENT_DATE, NEW.reservation_id, NEW.cip);
+        -- Check for reservation conflicts
+        IF EXISTS (
+            SELECT 1
+            FROM reservation
+            WHERE local_id = NEW.local_id
+              AND pavillon_id = NEW.pavillon_id
+              AND date_debut < NEW.date_fin
+              AND date_fin > NEW.date_debut
+              AND reservation_id <> NEW.reservation_id
+        ) THEN
+            RAISE EXCEPTION 'Reservation conflict: The selected time interval overlaps with an existing reservation.';
+        END IF;
+
+        -- Update the reservation in the logbook
+        UPDATE logbook
+        SET description = 'Reservation updated', trigger_date = CURRENT_DATE
+        WHERE reservation_id = NEW.reservation_id;
+
+        RETURN NEW;
     END IF;
-    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -60,25 +94,3 @@ CREATE TRIGGER reservation_logbook_trigger
     FOR EACH ROW
 EXECUTE FUNCTION update_logbook();
 
-CREATE OR REPLACE FUNCTION check_reservation_conflict() RETURNS TRIGGER AS $$
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM reservation
-        WHERE local_id = NEW.local_id
-          AND pavillon_id = NEW.pavillon_id
-          AND date_debut < NEW.date_fin
-          AND date_fin > NEW.date_debut
-          AND reservation_id <> NEW.reservation_id
-    ) THEN
-        RAISE EXCEPTION 'Reservation conflict: The selected time interval overlaps with an existing reservation.';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS reservation_conflict_trigger ON reservation;
-CREATE TRIGGER reservation_conflict_trigger
-    BEFORE INSERT OR UPDATE ON reservation
-    FOR EACH ROW
-EXECUTE FUNCTION check_reservation_conflict();
