@@ -50,6 +50,7 @@ BEGIN
             SELECT 1
             FROM reservation
             WHERE local_id = NEW.local_id
+              AND ((cubicule_id = NEW.cubicule_id) OR (cubicule_id IS NULL AND NEW.cubicule_id IS NULL))
               AND pavillon_id = NEW.pavillon_id
               AND date_debut < NEW.date_fin
               AND date_fin > NEW.date_debut
