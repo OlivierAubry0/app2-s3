@@ -98,7 +98,8 @@ CREATE OR REPLACE FUNCTION procedure_reservation_delete()
     RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO logbook(trigger_id, description, trigger_date, reservation_id, cip)
-    VALUES(DEFAULT,'Reservation annule', CURRENT_DATE, OLD.cip, OLD.reservation_id);
+
+    VALUES(DEFAULT,'Reservation annule', CURRENT_DATE,OLD.reservation_id, OLD.cip);
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
