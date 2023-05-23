@@ -110,7 +110,7 @@ INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip,
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, cubicule_id, pavillon_id) VALUES (5,'2023-05-21 13:00:00','2023-05-21 14:00:00','non', 'ratd6969',3125,3 ,'C1');
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, cubicule_id, pavillon_id) VALUES (6,'2023-05-21 13:00:00','2023-05-21 14:00:00','non', 'ratd6969',3125,2 ,'C1');
 
-
+DELETE FROM reservation WHERE reservation_id = 5;
 
 
 

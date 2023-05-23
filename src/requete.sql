@@ -40,8 +40,6 @@ $$;
 
 SELECT * FROM TABLEAU('2023-05-21 00:00:00'::timestamp, '2023-05-21 23:45:00'::timestamp, 210);
 
-
-
 CREATE OR REPLACE FUNCTION update_logbook() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
@@ -98,10 +96,11 @@ EXECUTE FUNCTION update_logbook();
 CREATE OR REPLACE FUNCTION procedure_reservation_delete()
     RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO logbook(trigger_id, description, trigger_date, reservation_id, cip)
+    INSERT INTO logbook(trigger_id,description, trigger_date, cip, reservation_id)
     VALUES(DEFAULT,'Reservation annule', CURRENT_DATE, OLD.cip, OLD.reservation_id);
-    RETURN new;
+    RETURN old;
 END;
+
 $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS trigger_reservation_delete ON reservation;
 CREATE TRIGGER trigger_reservation_delete

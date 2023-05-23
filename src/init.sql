@@ -108,10 +108,12 @@ CREATE TABLE Reservation
     description VARCHAR,
     cip VARCHAR NOT NULL,
     local_id INT NOT NULL,
+    cubicule_id INT,
     pavillon_id VARCHAR NOT NULL,
     PRIMARY KEY (reservation_id),
     FOREIGN KEY (cip) REFERENCES Personne(cip),
-    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id)
+    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id),
+    FOREIGN KEY (cubicule_id, local_id, pavillon_id) REFERENCES Cubicule(cubicule_id, local_id, pavillon_id)
 );
 
 CREATE TABLE Logbook
