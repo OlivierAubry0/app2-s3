@@ -95,9 +95,8 @@ INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,1
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,2,3125,'C1');
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,3,3125,'C1');
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,4,3125,'C1');
-INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,5,3125,'C1');
---Insertions Table personne --
 
+--Insertions Table personne --
 INSERT INTO personne (nom, prénom, cip, departement_id) VALUES ('ratelle', 'daphnée', 'ratd6969', 'SI');
 
 --Associer statut aux personnes --
@@ -118,7 +117,8 @@ DELETE FROM reservation WHERE reservation_id = 5;
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (4,'2023-05-21 12:00:00','2023-05-21 13:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
 -- date de fin avant date debut --
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (7,'2023-05-22 12:00:00','2023-05-22 11:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
-
+-- reserve local entier apres cubicule --
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (8,'2023-05-21 13:00:00','2023-05-21 14:00:00','rencontre projet', 'ratd6969',3125,'C1');
 
 
 
