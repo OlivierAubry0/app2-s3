@@ -117,7 +117,7 @@ DELETE FROM reservation WHERE reservation_id = 5;
 -- heure overlap --
 INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (4,'2023-05-21 12:00:00','2023-05-21 13:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
 -- date de fin avant date debut --
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (7,'2023-05-22 12:00:00','2023-05-21 20:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (7,'2023-05-22 12:00:00','2023-05-22 11:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
 
 
 

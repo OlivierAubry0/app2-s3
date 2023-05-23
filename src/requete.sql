@@ -1,46 +1,3 @@
-CREATE OR REPLACE FUNCTION TABLEAU(debut timestamp, fin timestamp, categorie int)
-    RETURNS TABLE (
-                      id_local varchar(8),
-                      id_pavillon varchar(8),
-                      heure timestamp,
-                      cip char(8),
-                      id_reservation int,
-                      description varchar(64)
-                  )
-    LANGUAGE SQL
-AS $$
-WITH horaire AS (
-    SELECT
-        l.local_id AS id_local,
-        l.pavillon_id AS id_pavillon,
-        generate_series(debut::timestamp, fin::timestamp, interval '15 minutes') AS heure
-    FROM
-        local l
-            INNER JOIN pavillon p ON l.pavillon_id = p.pavillon_id
-    WHERE
-            l.fonction_id = categorie
-)
-
-SELECT
-    h.id_local,
-    h.id_pavillon,
-    h.heure,
-    r.cip,
-    r.reservation_id,
-    r.description
-FROM
-    horaire h
-        LEFT JOIN reservation r ON h.id_local = r.local_id
-        AND h.id_pavillon = r.pavillon_id
-        AND h.heure >= r.date_debut
-        AND h.heure < r.date_fin + interval '1 day'
-ORDER BY
-    h.heure,
-    h.id_local;
-$$;
-
-SELECT * FROM TABLEAU('2023-05-21 00:00:00'::timestamp, '2023-05-21 23:45:00'::timestamp, 0110);
-
 CREATE OR REPLACE FUNCTION update_logbook() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
@@ -51,11 +8,15 @@ BEGIN
             WHERE local_id = NEW.local_id
               AND ((cubicule_id = NEW.cubicule_id) OR (cubicule_id IS NULL AND NEW.cubicule_id IS NULL))
               AND pavillon_id = NEW.pavillon_id
-              AND date_debut < date_fin
-              AND date_fin > date_debut
+              AND date_debut < NEW.date_fin
+              AND date_fin > NEW.date_debut
               AND reservation_id <> NEW.reservation_id
         ) THEN
             RAISE EXCEPTION 'Reservation conflict: The selected time interval overlaps with an existing reservation.';
+        END IF;
+
+        IF ( NEW.date_fin <= NEW.date_debut )
+        THEN RAISE EXCEPTION 'Reservation conflict: The end time is not after start time.';
         END IF;
 
         -- Insert the reservation into the logbook
