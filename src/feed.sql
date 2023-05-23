@@ -97,28 +97,28 @@ INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,3
 INSERT INTO cubicule (capacite, cubicule_id, local_id, pavillon_id) VALUES (10,4,3125,'C1');
 
 --Insertions Table personne --
-INSERT INTO personne (nom, prénom, cip, departement_id) VALUES ('ratelle', 'daphnée', 'ratd6969', 'SI');
+INSERT INTO personne (nom, prénom, cip, departement_id) VALUES ('ratelle', 'daphnée', 'ratd1234', 'SI');
 
 --Associer statut aux personnes --
-INSERT INTO personne_statut(cip, nom_statut) VALUES ('ratd6969', 'Etudiant');
+INSERT INTO personne_statut(cip, nom_statut) VALUES ('ratd1234', 'Etudiant');
 
 --Insertions Table Reservation --
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (0, '2023-05-21 02:00:00', '2023-05-21 04:00:00','Integration', 'ratd6969',3125 ,'C1');
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (2, '2023-05-21 04:00:00', '2023-05-21 06:00:00','Canoe', 'ratd6969',3125 ,'C1');
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (1,'2023-05-21 10:00:00','2023-05-21 11:00:00','app', 'ratd6969',3125 ,'C1');
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (3,'2023-05-21 12:00:00','2023-05-21 13:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, cubicule_id, pavillon_id) VALUES (5,'2023-05-21 13:00:00','2023-05-21 14:00:00',' ', 'ratd6969',3125 ,3 ,'C1');
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, cubicule_id, pavillon_id) VALUES (6,'2023-05-21 13:00:00','2023-05-21 14:00:00','rencontre projet', 'ratd6969',3125 ,2 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (0, '2023-05-21 02:00:00', '2023-05-21 04:00:00','Integration', 'ratd1234',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (2, '2023-05-21 04:00:00', '2023-05-21 06:00:00','Canoe', 'ratd1234',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (1,'2023-05-21 10:00:00','2023-05-21 11:00:00','app', 'ratd1234',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (3,'2023-05-21 12:00:00','2023-05-21 13:00:00','pre-drink app', 'ratd1234',3125 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, cubicule_id, pavillon_id) VALUES (5,'2023-05-21 13:00:00','2023-05-21 14:00:00',' ', 'ratd1234',3125 ,3 ,'C1');
+INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, cubicule_id, pavillon_id) VALUES (6,'2023-05-21 13:00:00','2023-05-21 14:00:00','rencontre projet', 'ratd1234',3125 ,2 ,'C1');
 
 DELETE FROM reservation WHERE reservation_id = 5;
 
 -- Test mauvaise reservation --
 -- heure overlap --
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (4,'2023-05-21 12:00:00','2023-05-21 13:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
+--INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (4,'2023-05-21 12:00:00','2023-05-21 13:00:00','pre-drink app', 'ratd1234',3125 ,'C1');
 -- date de fin avant date debut --
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (7,'2023-05-22 12:00:00','2023-05-22 11:00:00','pre-drink app', 'ratd6969',3125 ,'C1');
+--INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (7,'2023-05-22 12:00:00','2023-05-22 11:00:00','pre-drink app', 'ratd1234',3125 ,'C1');
 -- reserve local entier apres cubicule --
-INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (8,'2023-05-21 13:00:00','2023-05-21 14:00:00','rencontre projet', 'ratd6969',3125,'C1');
+--INSERT INTO reservation (reservation_id, date_debut, date_fin, description, cip, local_id, pavillon_id) VALUES (8,'2023-05-21 13:00:00','2023-05-21 14:00:00','rencontre projet', 'ratd1234',3125,'C1');
 
 
 
