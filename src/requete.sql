@@ -95,3 +95,17 @@ CREATE TRIGGER reservation_logbook_trigger
     FOR EACH ROW
 EXECUTE FUNCTION update_logbook();
 
+CREATE OR REPLACE FUNCTION procedure_reservation_delete()
+    RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO log(id_log,description, date, cip, id_reservation)
+    VALUES(DEFAULT,'Reservation annule', CURRENT_DATE, OLD.cip, OLD.id_reservation);
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS trigger_reservation_delete ON reservation;
+CREATE TRIGGER trigger_reservation_delete
+    BEFORE DELETE
+    ON reservation
+    FOR EACH ROW EXECUTE PROCEDURE procedure_reservation_delete();
+
