@@ -1,3 +1,4 @@
+DROP FUNCTION IF EXISTS TABLEAU(timestamp without time zone, timestamp without time zone, integer);
 CREATE OR REPLACE FUNCTION TABLEAU(debut timestamp, fin timestamp, categorie int)
     RETURNS TABLE (
                       id_local varchar(8),
@@ -5,7 +6,8 @@ CREATE OR REPLACE FUNCTION TABLEAU(debut timestamp, fin timestamp, categorie int
                       heure timestamp,
                       cip char(8),
                       id_reservation int,
-                      description varchar(64)
+                      description varchar(64),
+                      cubicule_id int
                   )
     LANGUAGE SQL
 AS $$
@@ -27,7 +29,8 @@ SELECT
     h.heure,
     r.cip,
     r.reservation_id,
-    r.description
+    r.description,
+    r.cubicule_id
 FROM
     horaire h
         LEFT JOIN reservation r ON h.id_local = r.local_id
