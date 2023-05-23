@@ -108,10 +108,12 @@ CREATE TABLE Reservation
     description VARCHAR,
     cip VARCHAR NOT NULL,
     local_id INT NOT NULL,
+    cubicule_id INT,
     pavillon_id VARCHAR NOT NULL,
     PRIMARY KEY (reservation_id),
     FOREIGN KEY (cip) REFERENCES Personne(cip),
-    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id)
+    FOREIGN KEY (local_id, pavillon_id) REFERENCES Local(local_id, pavillon_id),
+    FOREIGN KEY (cubicule_id, local_id, pavillon_id) REFERENCES Cubicule(cubicule_id, local_id, pavillon_id)
 );
 
 CREATE TABLE Logbook
@@ -119,9 +121,12 @@ CREATE TABLE Logbook
     trigger_id SERIAL PRIMARY KEY,
     description VARCHAR NOT NULL,
     trigger_date TIMESTAMP NOT NULL,
-    reservation_id INT NOT NULL,
+    local_id INT NOT NULL,
+    pavillon_id varchar NOT NULL,
+    cubicule_id INT,
     cip VARCHAR NOT NULL,
-    FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),
+    FOREIGN KEY (local_id,pavillon_id) REFERENCES local(local_id,pavillon_id),
+    FOREIGN KEY (cubicule_id, local_id,pavillon_id) REFERENCES cubicule(cubicule_id, local_id,pavillon_id),
     FOREIGN KEY (cip) REFERENCES Personne(cip)
 );
 
@@ -133,10 +138,3 @@ CREATE TABLE personne_statut
     FOREIGN KEY (cip) REFERENCES Personne(cip),
     FOREIGN KEY (nom_statut) REFERENCES Statut(nom_statut)
 );
-
-ALTER TABLE logbook
-    DROP CONSTRAINT logbook_reservation_id_fkey,
-    ADD CONSTRAINT logbook_reservation_id_fkey
-        FOREIGN KEY (reservation_id)
-            REFERENCES reservation (reservation_id)
-            ON DELETE CASCADE;
